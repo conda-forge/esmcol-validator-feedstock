@@ -6,30 +6,32 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 36b0fa8a60d12e0952b34b208cf728541779343bfc92dbfe43d6309eec1e3f3c
 
 build: 
   script: "{{ PYTHON }} -m pip install . --no-deps -vv"
-  number: 0
+  number: 1
   entry_points:
     - esmcol-validator=esmcol_validator.cli:main
   noarch: python
 
 requirements:
   host:
-    - python >=3.6
+    - python {{ python_min }}
     - pip
     - setuptools_scm
   
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - click
     - requests
     - jsonschema
     - pandas
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - esmcol_validator
 
